@@ -4,14 +4,20 @@ jobs:
  debugger-action-job:
   runs-on: ubuntu-latest
   steps:
-  - name: Maximize Build Space
-    uses: easimon/maximize-build-space@master
-    with:
-     remove-dotnet: 'true'
-     remove-android: 'true'
-     remove-haskell: 'true'
-     remove-codeql: 'true'
-     remove-docker-images: 'true'
+  # - name: Maximize Build Space
+  #   uses: easimon/maximize-build-space@master
+  #   with:
+  #    remove-dotnet: 'true'
+  #    remove-android: 'true'
+  #    remove-haskell: 'true'
+  #    remove-codeql: 'true'
+  #    remove-docker-images: 'true'
+
+  - name: Variables test
+    run: |
+      echo "${{ github.repositoryUrl }}"
+      echo "${GITHUB_SERVER_URL}"/"${GITHUB_REPOSITORY}".git
+      df -h
 
   - run: touch /tmp/keepalive
   - name: Setup Debug Session
