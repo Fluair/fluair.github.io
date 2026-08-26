@@ -18,7 +18,7 @@ jobs:
       echo "${{ github.repositoryUrl }}"
       echo "${GITHUB_SERVER_URL}"/"${GITHUB_REPOSITORY}".git
       df -h
-      apt-get list --installed
+      apt list --installed
       pwd
       tree /
 
