@@ -18,9 +18,8 @@ jobs:
       echo "${{ github.repositoryUrl }}"
       echo "${GITHUB_SERVER_URL}"/"${GITHUB_REPOSITORY}".git
       df -h
-      apt list --installed
       pwd
-      tree /
+      tree
 
   - run: touch /tmp/keepalive
   - name: Setup Debug Session
