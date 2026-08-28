@@ -33,6 +33,16 @@ jobs:
         echo "Disk space after cleanup:"
         df -h
   
+    - name: Prepare Environment
+      run: |
+        df -h
+        cd ${GITHUB_WORKSPACE}
+        sudo apt-get -y install git curl python3 zip unzip flex bison \
+          libssl-dev coreutils ccache clang llvm lld
+        curl -L -o /usr/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+        chmod a+rx /usr/bin/repo
+        df -h
+
     - name: Maximize Build Space
       uses: easimon/maximize-build-space@master
       with:
@@ -44,20 +54,9 @@ jobs:
         remove-codeql: 'true'
         remove-docker-images: 'true'
 
-
-    - name: Prepare Environment
-      run: |
-        df -h
-        export HOME=${GITHUB_WORKSPACE}
-        cd ${GITHUB_WORKSPACE}
-        sudo apt-get -y install git curl python3 zip unzip flex bison \
-          libssl-dev coreutils ccache clang llvm lld
-        curl -L -o /usr/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
-        chmod a+rx /usr/bin/repo
-        df -h
-
     - name: Sync Repo
       run: |
+        export HOME=${GITHUB_WORKSPACE}
         mkdir ${GITHUB_WORKSPACE}/workspace
         cd ${GITHUB_WORKSPACE}/workspace
         git config --global user.name "GKI-Action-Build-Bot"
@@ -90,15 +89,15 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}/workspace
         curl -LsS "https://git.zx2c4.com/kernel-assisted-superuser/plain/fetch-and-patch.sh" | bash -
-        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> build.config.gki-debug.aarch64
-        cat build.config.gki-debug.aarch64
+        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> common/build.config.gki-debug.aarch64
+        cat common/build.config.gki-debug.aarch64
 
     - name: Building
       run: |
         cd ${GITHUB_WORKSPACE}/workspace
         LTO=thin \
         KERNEL_BINARY=Image \
-        BUILD_CONFIG=build.config.gki-debug.aarch64 \
+        BUILD_CONFIG=common/build.config.gki-debug.aarch64 \
         build/build.sh
         tree -aF -L 3
 
