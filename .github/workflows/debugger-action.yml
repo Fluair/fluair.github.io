@@ -22,9 +22,10 @@ jobs:
       df -h
       pwd
       echo $HOME\n$PATH
-      mkdir -p $HOME/bin
-      curl -L -o $HOME/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
-      chmod a+rx $HOME/bin/repo
+      mkdir -p $HOME/.local/bin
+      export PATH=$HOME/.local/bin:$PATH
+      curl -L -o $HOME/.local/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+      chmod a+rx $HOME/.local/bin/repo
       echo $PATH
       repo -h
 
