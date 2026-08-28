@@ -106,6 +106,7 @@ jobs:
         BUILD_CONFIG=common/build.config.gki.aarch64 \
         build/build.sh
         tree -aF -L 3
+        ls -AlFh out/android12-5.10/dist/
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
