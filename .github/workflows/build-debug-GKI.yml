@@ -111,6 +111,7 @@ jobs:
     - name: Building
       run: |
         cd ${GITHUB_WORKSPACE}/workspace
+        CHECK_DEFCONFIG=false \
         LTO=thin \
         KERNEL_BINARY=Image \
         BUILD_CONFIG=common/build.config.gki.aarch64 \
