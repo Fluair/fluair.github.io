@@ -55,8 +55,10 @@ jobs:
     - name: Sync Repo
       run: |
         export HOME=${GITHUB_WORKSPACE}
-        curl -L -o $HOME/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
-        chmod a+rx $HOME/bin/repo
+        mkdir -p $HOME/.local/bin
+        export PATH=$HOME/.local/bin:$PATH
+        wget -O $HOME/.local/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+        chmod a+rx $HOME/.local/bin/repo
         mkdir ${GITHUB_WORKSPACE}/workspace
         cd ${GITHUB_WORKSPACE}/workspace
         git config --global user.name "GKI-Action-Build-Bot"
@@ -89,15 +91,15 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}/workspace
         curl -LsS "https://git.zx2c4.com/kernel-assisted-superuser/plain/fetch-and-patch.sh" | bash -
-        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> common/build.config.gki-debug.aarch64
-        cat common/build.config.gki-debug.aarch64
+        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> common/arch/arm64/configs/defconfig
+        cat common/arch/arm64/configs/defconfig
 
     - name: Building
       run: |
         cd ${GITHUB_WORKSPACE}/workspace
         LTO=thin \
         KERNEL_BINARY=Image \
-        BUILD_CONFIG=common/build.config.gki-debug.aarch64 \
+        BUILD_CONFIG=common/build.config.gki.aarch64 \
         build/build.sh
         tree -aF -L 3
 
