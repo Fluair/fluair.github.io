@@ -97,6 +97,9 @@ jobs:
         git config --global user.name "GKI-Action-Build-Bot"
         git config --global user.email "Android@teio.tk"
         curl -LsS "https://git.zx2c4.com/kernel-assisted-superuser/plain/fetch-and-patch.sh" | bash -
+
+        sed -i -e "s/endmenu//" -e "s/---help---/help/" -e "$ a endmenu" drivers/base/Kconfig
+
         echo "\n\n#### drivers/base/Kconfig ####"
         cat drivers/base/Kconfig
         echo "\n\n#### drivers/base/Makefile ####"
