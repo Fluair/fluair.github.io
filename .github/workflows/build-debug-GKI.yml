@@ -103,6 +103,9 @@ jobs:
         echo 'CONFIG_ASSISTED_SUPERUSER=y' >> arch/arm64/configs/gki_defconfig
         echo -e "\n\ngrep ASSISTED_SUPERUSER from arch/arm64/configs/gki_defconfig"
         cat arch/arm64/configs/gki_defconfig | grep ASSISTED_SUPERUSER
+        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> arch/arm64/configs/defconfig
+        echo -e "\n\ngrep ASSISTED_SUPERUSER from arch/arm64/configs/defconfig"
+        cat arch/arm64/configs/defconfig | grep ASSISTED_SUPERUSER
         [ -e drivers/base/superuser.c ] && echo "drivers/base/superuser.c exists" || echo "drivers/base/superuser.c does not exist"
 
     - name: Building
