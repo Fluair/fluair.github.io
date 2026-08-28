@@ -40,7 +40,7 @@ jobs:
         sudo apt-get -y install git curl python3 zip unzip flex bison \
           libssl-dev coreutils ccache clang llvm lld
         curl -L -o /tmp/repo https://storage.googleapis.com/git-repo-downloads/repo
-        su -c "cp /tmp/repo /usr/bin/repo && chmod a+rx /usr/bin/repo"
+        sudo "cp /tmp/repo /usr/bin/repo && chmod a+rx /usr/bin/repo"
         rm -f /tmp/repo
         df -h
 
