@@ -32,13 +32,13 @@ jobs:
         sudo rm -rf /usr/local/share/boost
         echo "Disk space after cleanup:"
         df -h
-  
-    - name: Prepare Environment
-      run: |
-        df -h
-        cd ${GITHUB_WORKSPACE}
-        sudo apt-get -y install coreutils git python3 zip unzip
-        df -h
+
+    # - name: Prepare Environment
+    #   run: |
+    #     df -h
+    #     cd ${GITHUB_WORKSPACE}
+    #     sudo apt-get -y install coreutils git python3 zip unzip
+    #     df -h
 
     - name: Maximize Build Space
       uses: easimon/maximize-build-space@master
@@ -68,7 +68,6 @@ jobs:
           -b common-android12-5.10-2024-05 --depth=1
 
         # Downloaded from https://ci.android.com/builds/submitted/13001810/kernel_aarch64/latest  -- manifest_13001810.xml
-        cat .repo/manifests/default.xml
         cat > .repo/manifests/default.xml << 'EOF'
         <?xml version="1.0" encoding="UTF-8"?>
         <manifest>
@@ -88,28 +87,27 @@ jobs:
         <project path="tools/mkbootimg" name="platform/system/tools/mkbootimg" revision="34bc8bfb493401f7aadbd3b434f9fbfa521e9301"/>
         </manifest>
         EOF
-        # Downloaded from https://ci.android.com/builds/submitted/13001810/kernel_aarch64/latest  -- manifest_13001810.xml
         tree -aF
-    #     repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle
-    #     tree -aF -L 3
+        repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle
+        tree -aF -L 3
 
-    # - name: SuperUser Patch
-    #   run: |
-    #     cd ${GITHUB_WORKSPACE}/workspace
-    #     curl -LsS "https://git.zx2c4.com/kernel-assisted-superuser/plain/fetch-and-patch.sh" | bash -
-    #     echo 'CONFIG_ASSISTED_SUPERUSER=y' >> common/arch/arm64/configs/defconfig
-    #     cat common/arch/arm64/configs/defconfig | grep ASSISTED_SUPERUSER
+    - name: SuperUser Patch
+      run: |
+        cd ${GITHUB_WORKSPACE}/workspace
+        curl -LsS "https://git.zx2c4.com/kernel-assisted-superuser/plain/fetch-and-patch.sh" | bash -
+        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> common/arch/arm64/configs/defconfig
+        cat common/arch/arm64/configs/defconfig | grep ASSISTED_SUPERUSER
 
-    # - name: Building
-    #   run: |
-    #     cd ${GITHUB_WORKSPACE}/workspace
-    #     LTO=thin \
-    #     KERNEL_BINARY=Image \
-    #     BUILD_CONFIG=common/build.config.gki.aarch64 \
-    #     build/build.sh
-    #     tree -aF -L 3
+    - name: Building
+      run: |
+        cd ${GITHUB_WORKSPACE}/workspace
+        LTO=thin \
+        KERNEL_BINARY=Image \
+        BUILD_CONFIG=common/build.config.gki.aarch64 \
+        build/build.sh
+        tree -aF -L 3
 
-    # - name: Upload Artifact
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     path: workspace/out/android12-5.10/dist/Image
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        path: workspace/out/android12-5.10/dist/Image
