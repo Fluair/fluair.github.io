@@ -50,6 +50,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         sudo apt-get -y install git curl repo python3 zip unzip flex bison \
           libssl-dev coreutils ccache clang llvm lld
+        df -h
 
     - name: Sync Repo
       run: |
@@ -76,6 +77,7 @@ jobs:
         KERNEL_BINARY=Image \
         BUILD_CONFIG=build.config.gki-debug.aarch64 \
         build/build.sh
+        tree -aF -L 3
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
