@@ -88,7 +88,7 @@ jobs:
         # </manifest>
         # EOF
         # tree -aF
-        repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle
+        repo sync -c -j1 --fail-fast --no-tags --no-clone-bundle
         ls -AlFh
 
     - name: SuperUser Patch
