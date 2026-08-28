@@ -65,17 +65,17 @@ jobs:
     - name: SuperUser Patch
       run: |
         cd ${GITHUB_WORKSPACE}/workspace
-		curl -LsS "https://git.zx2c4.com/kernel-assisted-superuser/plain/fetch-and-patch.sh" | bash -
-		echo 'CONFIG_ASSISTED_SUPERUSER=y' >> build.config.gki-debug.aarch64
-		cat build.config.gki-debug.aarch64
+        curl -LsS "https://git.zx2c4.com/kernel-assisted-superuser/plain/fetch-and-patch.sh" | bash -
+        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> build.config.gki-debug.aarch64
+        cat build.config.gki-debug.aarch64
 
     - name: Building
       run: |
         cd ${GITHUB_WORKSPACE}/workspace
-		LTO=thin \
-		KERNEL_BINARY=Image \
-		BUILD_CONFIG=build.config.gki-debug.aarch64 \
-		build/build.sh
+        LTO=thin \
+        KERNEL_BINARY=Image \
+        BUILD_CONFIG=build.config.gki-debug.aarch64 \
+        build/build.sh
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
