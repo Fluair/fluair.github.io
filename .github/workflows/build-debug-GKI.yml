@@ -123,3 +123,4 @@ jobs:
       with:
         name: Image.superuser
         path: workspace/out/android12-5.10/dist/Image
+        if-no-files-found: error
