@@ -24,10 +24,10 @@ jobs:
       echo $HOME\n$PATH
       mkdir -p $HOME/.local/bin
       export PATH=$HOME/.local/bin:$PATH
-      curl -L -o $HOME/.local/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+      wget -O $HOME/.local/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
       chmod a+rx $HOME/.local/bin/repo
-      echo $PATH
       repo -h
+      echo $PATH
 
   # - run: touch /tmp/keepalive
   # - name: Setup Debug Session
