@@ -39,8 +39,9 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         sudo apt-get -y install git curl python3 zip unzip flex bison \
           libssl-dev coreutils ccache clang llvm lld
-        curl -L -o /usr/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
-        chmod a+rx /usr/bin/repo
+        curl -L -o /tmp/repo https://storage.googleapis.com/git-repo-downloads/repo
+        su -c "cp /tmp/repo /usr/bin/repo && chmod a+rx /usr/bin/repo"
+        rm -f /tmp/repo
         df -h
 
     - name: Maximize Build Space
@@ -49,10 +50,10 @@ jobs:
         root-reserve-mb: 4096
         swap-size-mb: 3072
         remove-dotnet: 'true'
-        remove-android: 'true'
         remove-haskell: 'true'
         remove-codeql: 'true'
         remove-docker-images: 'true'
+        # remove-android: 'true'
 
     - name: Sync Repo
       run: |
