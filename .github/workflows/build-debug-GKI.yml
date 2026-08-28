@@ -89,27 +89,28 @@ jobs:
         EOF
         # tree -aF
         repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle
-        # ls -AlFh
-        tree -aF -L 3
+        ls -AlFh
 
     - name: SuperUser Patch
       run: |
         cd ${GITHUB_WORKSPACE}/workspace/common
+        git config --global user.name "GKI-Action-Build-Bot"
+        git config --global user.email "Android@teio.tk"
         curl -LsS "https://git.zx2c4.com/kernel-assisted-superuser/plain/fetch-and-patch.sh" | bash -
         echo 'CONFIG_ASSISTED_SUPERUSER=y' >> arch/arm64/configs/defconfig
         cat arch/arm64/configs/defconfig | grep ASSISTED_SUPERUSER
 
-    # - name: Building
-    #   run: |
-    #     cd ${GITHUB_WORKSPACE}/workspace
-    #     LTO=thin \
-    #     KERNEL_BINARY=Image \
-    #     BUILD_CONFIG=common/build.config.gki.aarch64 \
-    #     build/build.sh
-    #     # tree -aF -L 3
-    #     ls -AlFh out/android12-5.10/dist/
+    - name: Building
+      run: |
+        cd ${GITHUB_WORKSPACE}/workspace
+        LTO=thin \
+        KERNEL_BINARY=Image \
+        BUILD_CONFIG=common/build.config.gki.aarch64 \
+        build/build.sh
+        # tree -aF -L 3
+        ls -AlFh out/android12-5.10/dist/
 
-    # - name: Upload Artifact
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     path: workspace/out/android12-5.10/dist/Image
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        path: workspace/out/android12-5.10/dist/Image
