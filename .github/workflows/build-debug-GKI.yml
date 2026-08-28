@@ -1,4 +1,4 @@
-name: build-debug-GKI
+name: build-superuser-GKI
 
 on:
   workflow_dispatch:
@@ -7,7 +7,6 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
     steps:
@@ -58,11 +57,13 @@ jobs:
         git config --global user.name "GKI-Action-Build-Bot"
         git config --global user.email "Android@teio.tk"
 
+        ### Related Link: https://android.googlesource.com/kernel/manifest/+/refs/heads/common-android12-5.10-2024-05
         repo init -u https://android.googlesource.com/kernel/manifest \
           -b common-android12-5.10-2024-05 --depth=1
         df -h
 
-        ## Downloaded from https://ci.android.com/builds/submitted/13001810/kernel_aarch64/latest  -- manifest_13001810.xml
+        ### Downloaded from: https://ci.android.com/builds/submitted/13001810/kernel_aarch64/latest  # manifest_13001810.xml
+        ### Related Link: https://android.googlesource.com/kernel/common/+/refs/heads/deprecated/android12-5.10-2024-05
         cat > .repo/manifests/default.xml << 'EOF'
         <?xml version="1.0" encoding="UTF-8"?>
         <manifest>
