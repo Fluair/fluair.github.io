@@ -2,17 +2,32 @@ name: debugger-action
 on: workflow_dispatch
 jobs: 
  debugger-action-job:
-  runs-on: ubuntu-latest
+  runs-on: ubuntu-22.04
+  env:
+   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   steps:
-  - name: Maximize Build Space
-    uses: easimon/maximize-build-space@master
-    with:
-     remove-dotnet: 'true'
-     remove-android: 'true'
-     remove-haskell: 'true'
-     remove-codeql: 'true'
-     remove-docker-images: 'true'
+  # - name: Maximize Build Space
+  #   uses: easimon/maximize-build-space@master
+  #   with:
+  #    remove-dotnet: 'true'
+  #    remove-android: 'true'
+  #    remove-haskell: 'true'
+  #    remove-codeql: 'true'
+  #    remove-docker-images: 'true'
 
-  - run: touch /tmp/keepalive
-  - name: Setup Debug Session
-    uses: csexton/debugger-action@master
+  - name: Variables test
+    run: |
+      echo "${{ github.repositoryUrl }}"
+      echo "${GITHUB_SERVER_URL}"/"${GITHUB_REPOSITORY}".git
+      df -h
+      pwd
+      echo $HOME\n$PATH
+      mkdir -p $HOME/bin
+      curl -L -o $HOME/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+      chmod a+rx $HOME/bin/repo
+      echo $PATH
+      repo -h
+
+  # - run: touch /tmp/keepalive
+  # - name: Setup Debug Session
+  #   uses: csexton/debugger-action@master
