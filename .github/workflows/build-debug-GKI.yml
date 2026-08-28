@@ -101,7 +101,7 @@ jobs:
         echo -e "\n\n#### drivers/base/Makefile ####"
         cat drivers/base/Makefile
         echo 'CONFIG_ASSISTED_SUPERUSER=y' >> arch/arm64/configs/gki_defconfig
-        echo -e "\n\ngrep ASSISTED_SUPERUSER from arch/arm64/configs/gki_defconfig\n"
+        echo -e "\n\ngrep ASSISTED_SUPERUSER from arch/arm64/configs/gki_defconfig"
         cat arch/arm64/configs/gki_defconfig | grep ASSISTED_SUPERUSER
         [ -e drivers/base/superuser.c ] && echo "drivers/base/superuser.c exists" || echo "drivers/base/superuser.c does not exist"
 
