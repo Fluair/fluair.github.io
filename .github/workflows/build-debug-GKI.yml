@@ -34,13 +34,6 @@ jobs:
         echo "Disk space after cleanup:"
         df -h
 
-    # - name: Prepare Environment
-    #   run: |
-    #     df -h
-    #     cd ${GITHUB_WORKSPACE}
-    #     sudo apt-get -y install coreutils git python3 zip unzip
-    #     df -h
-
     - name: Maximize Build Space
       uses: easimon/maximize-build-space@master
       with:
@@ -67,6 +60,7 @@ jobs:
 
         repo init -u https://android.googlesource.com/kernel/manifest \
           -b common-android12-5.10-2024-05 --depth=1
+        df -h
 
         ## Downloaded from https://ci.android.com/builds/submitted/13001810/kernel_aarch64/latest  -- manifest_13001810.xml
         cat > .repo/manifests/default.xml << 'EOF'
@@ -91,6 +85,7 @@ jobs:
         # tree -aF
         repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle
         ls -AlFh
+        df -h
 
     - name: SuperUser Patch
       run: |
@@ -105,8 +100,10 @@ jobs:
         cat drivers/base/Kconfig
         echo -e "\n\n#### drivers/base/Makefile ####"
         cat drivers/base/Makefile
-        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> arch/arm64/configs/defconfig
-        cat arch/arm64/configs/defconfig | grep ASSISTED_SUPERUSER
+        echo 'CONFIG_ASSISTED_SUPERUSER=y' >> arch/arm64/configs/gki_defconfig
+        echo -e "\n\ngrep ASSISTED_SUPERUSER from arch/arm64/configs/gki_defconfig\n"
+        cat arch/arm64/configs/gki_defconfig | grep ASSISTED_SUPERUSER
+        [ -e drivers/base/superuser.c ] && echo "drivers/base/superuser.c exists" || echo "drivers/base/superuser.c does not exist"
 
     - name: Building
       run: |
@@ -115,7 +112,6 @@ jobs:
         KERNEL_BINARY=Image \
         BUILD_CONFIG=common/build.config.gki.aarch64 \
         build/build.sh
-        # tree -aF -L 3
         ls -AlFh out/android12-5.10/dist/
 
     - name: Upload Artifact
