@@ -68,7 +68,7 @@ jobs:
           -b common-android12-5.10-2024-05 --depth=1
 
         # Downloaded from https://ci.android.com/builds/submitted/13001810/kernel_aarch64/latest  -- manifest_13001810.xml
-        cat .repo/manifest/default.xml
+        cat .repo/manifests/default.xml
         cat > .repo/manifests/default.xml << 'EOF'
         <?xml version="1.0" encoding="UTF-8"?>
         <manifest>
