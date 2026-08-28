@@ -65,7 +65,7 @@ jobs:
         git config --global user.email "Android@teio.tk"
         repo init -u https://android.googlesource.com/kernel/manifest \
           -b common-android12-5.10-2024-05 --depth=1
-        cat > .repo/manifests << 'EOF'
+        tee > .repo/manifests/manifest_13001810.xml << 'EOF'
         <manifest>
         <remote name="aosp" fetch="https://android.googlesource.com/" review="https://android.googlesource.com/"/>
         <default revision="master-kernel-build-2021" remote="aosp" sync-j="4"/>
